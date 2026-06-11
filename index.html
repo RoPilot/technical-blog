@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Technical Blog</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: white;
+  color: black;
+}
+
+header {
+  padding: 50px 8%;
+  border-bottom: 4px solid black;
+}
+
+h1 {
+  font-size: 72px;
+  margin: 0;
+  font-weight: 900;
+  letter-spacing: -4px;
+}
+
+header p {
+  font-size: 18px;
+  max-width: 600px;
+}
+
+main {
+  width: 84%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.blog-card {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 30px;
+  padding: 40px 0;
+  border-bottom: 2px solid black;
+}
+
+.blog-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border: 3px solid black;
+}
+
+.date {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+h2 {
+  font-size: 42px;
+  margin: 5px 0;
+  font-weight: 900;
+  letter-spacing: -2px;
+}
+
+button {
+  background: black;
+  color: white;
+  border: 2px solid black;
+  padding: 12px 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: white;
+  color: black;
+}
+
+#full-post {
+  display: none;
+  padding: 40px 0;
+}
+
+#full-post img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border: 3px solid black;
+}
+
+@media (max-width: 700px) {
+  h1 {
+    font-size: 46px;
+  }
+
+  .blog-card {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>TECHNICAL BLOG</h1>
+  <p>Engineering notes, project logs, technical breakdowns and development writeups.</p>
+</header>
+
+<main>
+  <section id="blog-list"></section>
+
+  <section id="full-post">
+    <button onclick="goBack()">← Back</button>
+    <p class="date" id="post-date"></p>
+    <h2 id="post-title"></h2>
+    <img id="post-image">
+    <div id="post-content"></div>
+  </section>
+</main>
+
+<script>
+const posts = [
+  {
+    title: "Designing a Static Test Fixture",
+    date: "11 June 2026",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=900",
+    excerpt: "A short technical note on designing a simple bracket and threaded rod assembly.",
+    content: `
+      <p>This post explains how to approach a simple static fixture design from a manufacturability point of view.</p>
+      <h3>Design Aim</h3>
+      <p>The goal is to hold a threaded rod securely while allowing the bracket to be mounted to a machine frame.</p>
+      <h3>Key Considerations</h3>
+      <p>Keep the part easy to machine, avoid unnecessary tight tolerances, and make sure the load path is simple.</p>
+    `
+  },
+  {
+    title: "Building Reliable Test Software",
+    date: "8 June 2026",
+    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=900",
+    excerpt: "How to structure small test applications so they are easier to debug and expand.",
+    content: `
+      <p>Reliable test software should be simple, readable and built around clear states.</p>
+      <h3>Useful Approach</h3>
+      <p>Separate setup, measurement, validation and logging. This makes faults easier to isolate.</p>
+    `
+  },
+  {
+    title: "Understanding Power Devices",
+    date: "4 June 2026",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=900",
+    excerpt: "A beginner-friendly breakdown of thyristors, GTOs and controlled switching devices.",
+    content: `
+      <p>Power devices are used to control high current and high voltage circuits.</p>
+      <h3>Basic Idea</h3>
+      <p>A thyristor can be triggered on using the gate, while devices like GTOs can also be turned off through gate control.</p>
+    `
+  }
+];
+
+const blogList = document.getElementById("blog-list");
+
+function showPosts() {
+  blogList.innerHTML = "";
+
+  posts.forEach((post, index) => {
+    blogList.innerHTML += `
+      <article class="blog-card">
+        <img src="${post.image}">
+        <div>
+          <p class="date">${post.date}</p>
+          <h2>${post.title}</h2>
+          <p>${post.excerpt}</p>
+          <button onclick="openPost(${index})">Read Post</button>
+        </div>
+      </article>
+    `;
+  });
+}
+
+function openPost(index) {
+  const post = posts[index];
+
+  document.getElementById("blog-list").style.display = "none";
+  document.getElementById("full-post").style.display = "block";
+
+  document.getElementById("post-date").innerText = post.date;
+  document.getElementById("post-title").innerText = post.title;
+  document.getElementById("post-image").src = post.image;
+  document.getElementById("post-content").innerHTML = post.content;
+}
+
+function goBack() {
+  document.getElementById("full-post").style.display = "none";
+  document.getElementById("blog-list").style.display = "block";
+}
+
+showPosts();
+</script>
+
+</body>
+</html>
